@@ -1,0 +1,38 @@
+BOTAENICA — VERSION IPHONE
+===========================
+
+Ce dossier contient le projet Xcode du jeu Botaenica (dossier ios/) et ses sources.
+Il faut un Mac pour le compiler : Apple n'autorise pas la compilation iPhone sous Windows.
+
+CE QU'IL FAUT
+- Un Mac avec Xcode (gratuit sur l'App Store).
+- Node.js 20 ou plus récent (https://nodejs.org).
+- Un identifiant Apple : suffit pour installer le jeu sur TON iPhone (valable 7 jours, à refaire ensuite).
+- Un compte Apple Developer (99 $ par an) : nécessaire pour TestFlight et l'App Store.
+
+ÉTAPES
+1. Décompresse l'archive sur le Mac.
+2. Ouvre le Terminal dans ce dossier et lance :
+       npm install
+       npx cap sync ios
+   (npm install récupère les modules Capacitor dont le projet Xcode a besoin.)
+3. Ouvre ios/App/App.xcodeproj dans Xcode.
+   Au premier lancement, Xcode télécharge les paquets Swift : attends la fin.
+4. Clique sur le projet « App », onglet « Signing & Capabilities » :
+   - coche « Automatically manage signing » ;
+   - choisis ton équipe (Team) ;
+   - si l'identifiant fr.botaenica.app est refusé, mets-en un à toi, par exemple fr.tonnom.botaenica.
+5. Branche ton iPhone, choisis-le en haut d'Xcode, puis appuie sur ▶.
+   Sur l'iPhone : Réglages > Général > VPN et gestion de l'appareil > fais confiance à ton compte.
+   (Sur iOS 16 et plus, active aussi Réglages > Confidentialité et sécurité > Mode développeur.)
+
+PUBLIER (App Store ou TestFlight)
+Dans Xcode : Product > Archive, puis « Distribute App » > App Store Connect.
+
+MODIFIER LE JEU
+Le jeu lui-même est une page web (src/, public/, index.html).
+Après une modification : npm run build && npx cap sync ios, puis relance dans Xcode.
+
+CRÉDITS
+Les plantes sont peintes d'après des photos de Wikimedia Commons ; leurs auteurs et licences
+sont listés dans le jeu (Menu > Crédits des photos).

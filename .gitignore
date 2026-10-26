@@ -1,0 +1,27 @@
+node_modules/
+dist/
+*.log
+
+# Clés de signature et config machine
+*.jks
+*.keystore
+android/local.properties
+
+# Builds natifs
+android/.gradle/
+android/build/
+android/app/build/
+android/app/release/
+ios/App/Pods/
+ios/App/build/
+ios/DerivedData/
+
+# Binaires distribués à part
+*.apk
+*.aab
+*.zip
+
+# Sources d'art brutes (1,8 Go) : seules les versions optimisées de public/ sont versionnées
+art/
+
+.claude/

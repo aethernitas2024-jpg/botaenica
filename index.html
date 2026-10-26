@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#10163a" />
+  <title>Botaenica — jardin zen</title>
+  <link rel="stylesheet" href="./src/style.css" />
+</head>
+<body>
+  <canvas id="garden"></canvas>
+
+  <header id="hud">
+    <button id="dew" class="pill" aria-label="Gouttes de rosée">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><defs><radialGradient id="dg" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#fff"/><stop offset=".5" stop-color="#9fdcf7"/><stop offset="1" stop-color="#3a8fcf"/></radialGradient></defs><path d="M12 2C9 7 5 10.5 5 15a7 7 0 0 0 14 0c0-4.5-4-8-7-13z" fill="url(#dg)"/></svg>
+      <span id="dewCount">0</span>
+    </button>
+    <div id="clock"></div>
+    <div class="hud-right">
+    <button id="placesBtn" class="round" aria-label="Lieux">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M9 4 3 6.5v13.5l6-2.5 6 2.5 6-2.5V4l-6 2.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 4v13.5M15 6.5V20" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+    </button>
+    <button id="pvBtn" class="round" aria-label="Pavillon des plantes">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M2 9.5c4-.5 7-2.6 10-6 3 3.4 6 5.5 10 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 9.8V20M19 9.8V20M3 20h18M9 20v-6h6v6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button id="menuBtn" class="round" aria-label="Menu">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="5" cy="12" r="2" fill="currentColor"/><circle cx="12" cy="12" r="2" fill="currentColor"/><circle cx="19" cy="12" r="2" fill="currentColor"/></svg>
+    </button>
+    </div>
+  </header>
+
+  <div id="hint" class="hidden"></div>
+  <div id="toast" class="hidden"></div>
+
+  <nav id="toolbar">
+    <button data-tool="main" class="tool active" aria-label="Main">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 25 L22 9" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M17 5 L27 15" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M19 7l-2 2M21 9l-2 2M23 11l-2 2M25 13l-2 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <span>Ratisser</span>
+    </button>
+    <button data-tool="water" class="tool" aria-label="Arrosoir">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M8 13h12v10a3 3 0 0 1-3 3h-6a3 3 0 0 1-3-3z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M20 16l7-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M11 13a3 3 0 0 1 6 0" fill="none" stroke="currentColor" stroke-width="2"/><path d="M28 13v2M26 15v2M29 16v2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <span>Arroser</span>
+    </button>
+    <button data-tool="seeds" class="tool" aria-label="Graines">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 27V15" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M16 17c-6 0-9-4-9-9 5 0 9 3 9 9z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M16 15c0-5 3-8 8-8 0 5-3 8-8 8z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/></svg>
+      <span>Planter</span>
+    </button>
+  </nav>
+
+  <section id="seeds" class="sheet hidden" aria-label="Graines">
+    <div class="grab"></div>
+    <h2>Graines</h2>
+    <p class="sub">Récolte la rosée de tes plantes mûres pour en acheter de nouvelles.</p>
+    <ul id="seedList"></ul>
+  </section>
+
+  <section id="card" class="sheet hidden" aria-live="polite"></section>
+
+  <section id="menu" class="sheet hidden" aria-label="Menu">
+    <div class="grab"></div>
+    <h2>Le jardin</h2>
+    <button class="row" id="soundBtn"></button>
+    <button class="row" id="zenBtn">Mode contemplation <small>cache l’interface</small></button>
+    <button class="row" id="langBtn"></button>
+    <button class="row" id="creditsBtn"></button>
+    <button class="row" id="smoothBtn">Lisser tout le sable <small>efface tes motifs</small></button>
+    <p class="about">Botaenica 1.1 · Tout reste sur ton téléphone. Aucun compte, aucune publicité, aucune donnée envoyée.</p>
+  </section>
+
+  <section id="pavillon" class="hidden" aria-label="Pavillon des plantes">
+    <div class="pv-head">
+      <button id="pvClose" class="round" aria-label="Retour au jardin">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div><h2>Pavillon des plantes</h2><p id="pvProgress"></p></div>
+    </div>
+    <div id="pvTabs" role="tablist"></div>
+    <div id="pvCollection">
+      <div id="pvFilters"></div>
+      <div id="pvGrid"></div>
+    </div>
+    <div id="pvMap" class="hidden"><p class="pv-intro" id="pvMapIntro"></p><canvas id="pvMapCanvas"></canvas><ul id="pvMapList"></ul></div>
+    <div id="pvQuiz" class="hidden"></div>
+  </section>
+  <section id="pvDetail" class="sheet hidden" aria-live="polite"></section>
+  <div id="reveal" class="hidden" aria-live="polite"></div>
+
+  <section id="credits" class="sheet hidden" aria-label="Crédits">
+    <div class="grab"></div>
+    <h2></h2>
+    <p class="sub"></p>
+    <ul id="creditsList"></ul>
+  </section>
+
+  <section id="lieux" class="sheet hidden" aria-label="Lieux">
+    <div class="grab"></div>
+    <h2>Lieux</h2>
+    <p class="sub">Découvre de nouvelles espèces pour ouvrir de nouveaux lieux.</p>
+    <ul id="lieuxList"></ul>
+  </section>
+
+  <button id="unzen" class="hidden" aria-label="Afficher l’interface"></button>
+
+  <div id="splash">
+    <div class="splash-inner">
+      <h1><span style="--i:0">B</span><span style="--i:1">o</span><span style="--i:2">t</span><span style="--i:3">a</span><span style="--i:4">e</span><span style="--i:5">n</span><span style="--i:6">i</span><span style="--i:7">c</span><span style="--i:8">a</span></h1>
+      <p>un jardin qui pousse avec le temps</p>
+      <small>touche pour entrer</small>
+    </div>
+  </div>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

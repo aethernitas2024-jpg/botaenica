@@ -1,0 +1,8 @@
+{
+  "appId": "fr.botaenica.app",
+  "appName": "Botaenica",
+  "webDir": "dist",
+  "android": {
+    "backgroundColor": "#10163a"
+  }
+}
